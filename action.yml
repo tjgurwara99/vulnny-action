@@ -1,0 +1,25 @@
+name: Vulnny action
+description: A simple action to run the vulnny tool in GitHub Actions
+author: Taj <tjgurwara99@gmail.com>
+inputs:
+  packages:
+    description: List of packages to run the tool against
+    required: true
+    default: ./...
+runs:
+  using: composite
+  steps:
+    - name: Setup Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '^1.20'
+    - name: Install Vulnny from source
+      shell: bash
+      run: go install github.com/tjgurwara99/vulnny@v0.0.1
+    - name: Analyse code
+      shell: bash
+      run: vulnny -o results.sarif ${{ inputs.packages }}
+    - name: Upload SARIF to Code Scanning
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: results.sarif
