@@ -19,7 +19,7 @@ runs:
         go-version: '^1.20'
     - name: Install Vulnny from source
       shell: bash
-      run: go install github.com/tjgurwara99/vulnny@v0.0.4
+      run: go install github.com/tjgurwara99/vulnny@v0.0.5
     - name: Analyse code
       shell: bash
       run: vulnny -o results.sarif ${{ inputs.packages }}
