@@ -6,6 +6,10 @@ inputs:
     description: List of packages to run the tool against
     required: true
     default: ./...
+  go-version:
+    description: Version of Go being used
+    required: false
+    default: '^1.20'
 runs:
   using: composite
   steps:
@@ -15,7 +19,7 @@ runs:
         go-version: '^1.20'
     - name: Install Vulnny from source
       shell: bash
-      run: go install github.com/tjgurwara99/vulnny@v0.0.3
+      run: go install github.com/tjgurwara99/vulnny@v0.0.4
     - name: Analyse code
       shell: bash
       run: vulnny -o results.sarif ${{ inputs.packages }}
